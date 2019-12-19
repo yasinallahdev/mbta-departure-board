@@ -2,6 +2,10 @@
     border: 1px solid black;
 }
 
+.trainBoard th, .trainBoard td {
+    height: 28px;
+}
+
 body {
     display: flex;
     justify-content: space-around;
