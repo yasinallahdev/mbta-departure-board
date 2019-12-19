@@ -53,9 +53,8 @@ function displayTrainNumber(vehicleData) {
 }
 
 function trackForStation(trackStation, rowPrefix) {
-    for(let i = 0; (i < trackStation.length) && (i < 10); i++) {
+    for(let i = 0; i < 10; i++) {
             
-        const stationData = trackStation[i].relationships.stop.data.id.split('-');
         const targetTableRow = document.querySelector(`#${rowPrefix}row${i}`);
 
         const carrierElement = targetTableRow.querySelectorAll('td')[0];
@@ -64,14 +63,27 @@ function trackForStation(trackStation, rowPrefix) {
         const trainStatusElement = targetTableRow.querySelectorAll('td')[3];
         const trainNumberElement = targetTableRow.querySelectorAll('td')[4];
         const trackNumberElement = targetTableRow.querySelectorAll('td')[5];
-        const departureTime = trackStation[i].attributes.departure_time;
 
-        carrierElement.textContent = "MBTA"; // todo: Add Display for Amtrak Northeast Regional/Acela Express/Lake Shore Limited/Downeaster Trains
-        destinationElement.textContent = determineDestination(trackStation[i]);
-        departureTimeElement.textContent = displayTime(new Date(departureTime));
-        trainStatusElement.textContent = trackStation[i].attributes.status;
-        trainNumberElement.textContent = displayTrainNumber(trackStation[i].relationships.vehicle.data);
-        trackNumberElement.textContent = (stationData.length > 1)?(stationData[1]):("TBA");
+        if( i < trackStation.length ) {
+            
+            const stationData = trackStation[i].relationships.stop.data.id.split('-');
+            const departureTime = trackStation[i].attributes.departure_time;
+
+            carrierElement.textContent = "MBTA"; // todo: Add Display for Amtrak Northeast Regional/Acela Express/Lake Shore Limited/Downeaster Trains
+            destinationElement.textContent = determineDestination(trackStation[i]);
+            departureTimeElement.textContent = displayTime(new Date(departureTime));
+            trainStatusElement.textContent = trackStation[i].attributes.status;
+            trainNumberElement.textContent = displayTrainNumber(trackStation[i].relationships.vehicle.data);
+            trackNumberElement.textContent = (stationData.length > 1)?(stationData[1]):("TBA");
+
+        } else {
+            carrierElement.textContent = "";
+            destinationElement.textContent = "";
+            departureTimeElement.textContent = "";
+            trainStatusElement.textContent = "";
+            trainNumberElement.textContent = "";
+            trackNumberElement.textContent = "";
+        }
 
     }
 }
