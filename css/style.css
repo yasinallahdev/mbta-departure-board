@@ -1,0 +1,9 @@
+.trainBoard, .trainBoard th, .trainBoard tr, .trainBoard td {
+    border: 1px solid black;
+}
+
+body {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+}
