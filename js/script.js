@@ -5,18 +5,19 @@ function determineDestination(route) {
     switch(route.relationships.route.data.id) {
         case "CR-Fitchburg": return "Wachusett";
         case "CR-Haverhill": return "Haverhill";
-        case "CR-Lowell": return "Lowell";
-        case "CR-Newburyport": return "Newburyport or Rockport";
+        case "CR-Lowell": return "Lowell"; // Some Haverhill Line trains use the Lowell Line until splitting via the Wildcat Branch.
+        case "CR-Newburyport": return "Newburyport or Rockport"; // Service to Newburyport and Rockport split at Beverly Depot.
         case "CR-Greenbush": return "Greenbush";
         case "CR-Middleborough": return "Middleborough/Lakeville";
-        case "CR-Kingston": return "Kingston, MA or Plymouth";
-        case "CR-Fairmount": return "Readville, Forge Park/495 or Foxboro";
-        case "CR-Franklin": return "Forge Park/495 or Foxboro";
-        case "CR-Worcester": return "Worcester";
+        case "CR-Kingston": return "Kingston, MA or Plymouth"; // Most Kingston/Plymouth trains serve only Kingston, MA due to lack of a Wye. Some Kingston trains reverse direction to serve Plymouth.
+        case "CR-Fairmount": return "Readville, Forge Park/495 or Foxboro"; // Some Fairmount trains continue onto Forge Park/495 or Foxboro as CR-Franklin line trains
+        case "CR-Franklin": return "Forge Park/495 or Foxboro"; // Foxboro trains use the Franklin line up until splitting at Wapole.
+        case "CR-Worcester": return "Worcester"; // Some Worcester Line trains short-turn at Framingham
+        case "CR-Foxboro": return "Foxboro"; // Used by Foxboro Event Patriot's Trains; Normal service to Foxboro uses 'CR-Fairmount' or 'CR-Franklin'
         case "CR-Providence":
             // if the current day of the week is not Sunday or Saturday
             if(dayOfWeek !== 0 && dayOfWeek !== 6) {
-                return "Wickford Junction or Stoughton";
+                return "Wickford Junction or Stoughton"; // Some Providence branch trains do not continue onto Wickford Junction, making their last stop at Providence. Stoughton trains split at Canton Junction.
             } else {
                 return "Providence"; // Stoughton, T.F. Green Airport, and Wickford Junction do not have weekend service, so all CR-Providence trains terminate at Providence.
             }
