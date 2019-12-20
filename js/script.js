@@ -49,7 +49,7 @@ function displayTrainNumber(vehicleData) {
             return vehicleID;
         }
     }
-    return "TBA"
+    return "TBA";
 }
 
 function trackForStation(trackStation, rowPrefix) {
@@ -61,7 +61,7 @@ function trackForStation(trackStation, rowPrefix) {
         const departureTimeElement = targetTableRow.querySelectorAll('td')[1];
         const destinationElement = targetTableRow.querySelectorAll('td')[2];
         const trainNumberElement = targetTableRow.querySelectorAll('td')[3];
-        const trackNumberElement = targetTableRow.querySelectorAll('td')[3];
+        const trackNumberElement = targetTableRow.querySelectorAll('td')[4];
         const trainStatusElement = targetTableRow.querySelectorAll('td')[5];
 
         if( i < trackStation.length ) {
@@ -74,7 +74,7 @@ function trackForStation(trackStation, rowPrefix) {
             departureTimeElement.textContent = displayTime(new Date(departureTime));
             trainStatusElement.textContent = trackStation[i].attributes.status;
             trainNumberElement.textContent = displayTrainNumber(trackStation[i].relationships.vehicle.data);
-            trackNumberElement.textContent = (stationData.length > 1)?(stationData[1]):("TBA");
+            trackNumberElement.textContent = (stationData.length > 1)?(parseFloat(stationData[1])):("TBA");
 
         } else {
             carrierElement.textContent = "";
