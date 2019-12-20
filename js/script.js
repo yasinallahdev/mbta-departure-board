@@ -1,3 +1,5 @@
+const timeDisplay = document.querySelector('#currentTime');
+
 // needs improvement; will not properly denote trains going to Foxboro, Stoughton, Rockport, or Plymouth. It will also not properly denote trains not following the entire route,
 // such as trains that terminate at Providence, Framingham or Reading rather than Wickford Junction, Worcester or Haverhill.
 function determineDestination(route) {
@@ -10,7 +12,7 @@ function determineDestination(route) {
         case "CR-Greenbush": return "Greenbush";
         case "CR-Middleborough": return "Middleborough/Lakeville";
         case "CR-Kingston": return "Kingston, MA or Plymouth"; // Most Kingston/Plymouth trains serve only Kingston, MA due to lack of a Wye. Some Kingston trains reverse direction to serve Plymouth.
-        case "CR-Fairmount": return "Readville, Forge Park/495 or Foxboro"; // Some Fairmount trains continue onto Forge Park/495 or Foxboro as CR-Franklin line trains
+        case "CR-Fairmount": return "Readville"; // Some Fairmount trains continue onto Forge Park/495 or Foxboro as CR-Franklin line trains
         case "CR-Franklin": return "Forge Park/495 or Foxboro"; // Foxboro trains use the Franklin line up until splitting at Wapole.
         case "CR-Worcester": return "Worcester"; // Some Worcester Line trains short-turn at Framingham
         case "CR-Foxboro": return "Foxboro"; // Used by Foxboro Event Patriot's Trains; Normal service to Foxboro uses 'CR-Fairmount' or 'CR-Franklin'
@@ -89,9 +91,11 @@ function trackForStation(trackStation, rowPrefix) {
     }
 }
 
-function makeRequest() {
+function updateBoard() {
 
     console.log('updating board...');
+
+    timeDisplay.textContent = displayTime(new Date(Date.now()));
 
     fetch('https://api-v3.mbta.com/predictions/?stop=place-north,place-sstat&route=CR-Fitchburg,CR-Haverhill,CR-Lowell,CR-Newburyport,CR-Greenbush,CR-Middleborough,CR-Kingston,CR-Fairmount,CR-Franklin,CR-Worcester,CR-Providence,CR-Needham')
         .then(res => res.json())
@@ -112,8 +116,8 @@ function makeRequest() {
 
 }
 
-makeRequest();
+updateBoard();
 
 setInterval(() => {
-   makeRequest() 
+    updateBoard() 
 }, 10000);
