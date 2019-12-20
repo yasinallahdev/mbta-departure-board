@@ -7,9 +7,25 @@
     border: 5px solid white;
 }
 
+.trainBoardSection {
+    width: 40%;
+}
+
+#timeSection {
+    width: 20%;
+}
+
+.trainBoard {
+    width: 100%;
+}
+
 body {
+    font-family: 'Lato', sans-serif, arial;
     color: white;
     background-color: blue; 
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
 }
 
 .trainBoard td, #timeSection {
@@ -24,10 +40,4 @@ td.status {
 
 .trainBoard th, .trainBoard td {
     height: 28px;
-}
-
-body {
-    display: flex;
-    justify-content: space-around;
-    text-align: center;
 }
