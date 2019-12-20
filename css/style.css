@@ -2,6 +2,10 @@
     padding: 0% 1%;
 }
 
+h2, #timeSection, .trainBoard th {
+    text-align: center;
+}
+
 .trainBoard {
     background-color: black;
     border: 5px solid white;
@@ -25,7 +29,6 @@ body {
     background-color: blue; 
     display: flex;
     justify-content: space-between;
-    text-align: center;
 }
 
 .trainBoard td, #timeSection {
