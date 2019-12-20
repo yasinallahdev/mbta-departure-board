@@ -60,9 +60,9 @@ function trackForStation(trackStation, rowPrefix) {
         const carrierElement = targetTableRow.querySelectorAll('td')[0];
         const departureTimeElement = targetTableRow.querySelectorAll('td')[1];
         const destinationElement = targetTableRow.querySelectorAll('td')[2];
-        const trainStatusElement = targetTableRow.querySelectorAll('td')[3];
-        const trainNumberElement = targetTableRow.querySelectorAll('td')[4];
-        const trackNumberElement = targetTableRow.querySelectorAll('td')[5];
+        const trainNumberElement = targetTableRow.querySelectorAll('td')[3];
+        const trackNumberElement = targetTableRow.querySelectorAll('td')[3];
+        const trainStatusElement = targetTableRow.querySelectorAll('td')[5];
 
         if( i < trackStation.length ) {
             
