@@ -1,0 +1,25 @@
+{
+  "name": "mbta-takehome",
+  "version": "1.0.0",
+  "description": "MBTA Takehome Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yasinallahdev/mbta-departure-board.git"
+  },
+  "keywords": [
+    "MBTA"
+  ],
+  "author": "Ya Sin Supreme Allah",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yasinallahdev/mbta-departure-board/issues"
+  },
+  "homepage": "https://github.com/yasinallahdev/mbta-departure-board#readme",
+  "dependencies": {
+    "axios": "^0.19.1"
+  }
+}
