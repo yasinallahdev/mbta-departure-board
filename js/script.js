@@ -1,20 +1,19 @@
 const timeDisplay = document.querySelector('#currentTime');
 
-// needs improvement; will not properly denote trains going to Foxboro, Stoughton, Rockport, or Plymouth. It will also not properly denote trains not following the entire route,
-// such as trains that terminate at Providence, Framingham or Reading rather than Wickford Junction, Worcester or Haverhill.
-async function determineDestination(route) {
+async function determineDestination(departureData) {
     
     let finalDestination = "";
+    const tripData = departureData.relationships.trip.data.id;
 
     console.log("final destination");
-    console.log(route);
-    console.log(`https://api-v3.mbta.com/routes/${route}`);
+    console.log(tripData);
+    console.log(`https://api-v3.mbta.com/trips/${tripData}?api_key=${apiKey}`);
 
-    await fetch(`https://api-v3.mbta.com/routes/${route}`)
-        .then(res => res.json())
-        .then(response => {
-            finalDestination = response.data.data.attributes.direction_destinations[0];
-        })
+    const destinationData = await axios.get(`https://api-v3.mbta.com/trips/${tripData}?api_key=${apiKey}`)
+
+    finalDestination = destinationData.data.data.attributes.headsign;
+
+    console.log(finalDestination);
 
     return finalDestination;
 
@@ -47,7 +46,7 @@ function displayTrainNumber(vehicleData) {
     return "TBD";
 }
 
-function trackForStation(trackStation, rowPrefix) {
+async function trackForStation(trackStation, rowPrefix) {
     for(let i = 0; i < 10; i++) {
             
         const targetTableRow = document.querySelector(`#${rowPrefix}row${i}`);
@@ -66,7 +65,7 @@ function trackForStation(trackStation, rowPrefix) {
 
             carrierElement.textContent = "MBTA"; // todo: Add Display for Amtrak Northeast Regional/Acela Express/Lake Shore Limited/Downeaster Trains
             console.log(trackStation[i]);
-            destinationElement.textContent = determineDestination(trackStation[i]);
+            destinationElement.textContent = await determineDestination(trackStation[i]);
             departureTimeElement.textContent = displayTime(new Date(departureTime));
             trainStatusElement.textContent = trackStation[i].attributes.status;
             trainNumberElement.textContent = displayTrainNumber(trackStation[i].relationships.vehicle.data);
@@ -88,22 +87,24 @@ function updateBoard() {
 
     timeDisplay.textContent = displayTime(new Date(Date.now()));
 
-    fetch('https://api-v3.mbta.com/predictions/?stop=place-north,place-sstat&route=CR-Fitchburg,CR-Haverhill,CR-Lowell,CR-Newburyport,CR-Greenbush,CR-Middleborough,CR-Kingston,CR-Fairmount,CR-Franklin,CR-Worcester,CR-Providence,CR-Needham')
+    fetch(`https://api-v3.mbta.com/predictions/?api_key=${apiKey}&stop=place-north,place-sstat&route=CR-Fitchburg,CR-Haverhill,CR-Lowell,CR-Newburyport,CR-Greenbush,CR-Middleborough,CR-Kingston,CR-Fairmount,CR-Franklin,CR-Worcester,CR-Providence,CR-Needham`)
         .then(res => res.json())
         .then(response => {
-            const filteredNorthStations = response.data.filter(elem => {
-                return (elem.relationships.stop.data.id.includes("North Station")) && (elem.attributes.departure_time !== null ? true : false);
-            });
+            if(response.data) {
+                const filteredNorthStations = response.data.filter(elem => {
+                    return (elem.relationships.stop.data.id.includes("North Station")) && (elem.attributes.departure_time !== null ? true : false);
+                });
 
-            const filteredSouthStations = response.data.filter(elem => {
-                return (elem.relationships.stop.data.id.includes("South Station")) && (elem.attributes.departure_time !== null ? true : false);
-            });
-            const sortedNorthStations = filteredNorthStations.sort((a, b) => new Date(a.attributes.departure_time) - new Date(b.attributes.departure_time));
-            const sortedSouthStations = filteredSouthStations.sort((a, b) => new Date(a.attributes.departure_time) - new Date(b.attributes.departure_time));
-            trackForStation(sortedNorthStations, 'n');
-            trackForStation(sortedSouthStations, 's');
-            
-    });
+                const filteredSouthStations = response.data.filter(elem => {
+                    return (elem.relationships.stop.data.id.includes("South Station")) && (elem.attributes.departure_time !== null ? true : false);
+                });
+                const sortedNorthStations = filteredNorthStations.sort((a, b) => new Date(a.attributes.departure_time) - new Date(b.attributes.departure_time));
+                const sortedSouthStations = filteredSouthStations.sort((a, b) => new Date(a.attributes.departure_time) - new Date(b.attributes.departure_time));
+                trackForStation(sortedNorthStations, 'n');
+                trackForStation(sortedSouthStations, 's');
+            }
+        })
+        .catch(err => console.log(err));
 
 }
 
