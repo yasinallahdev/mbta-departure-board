@@ -33,8 +33,10 @@ h2, #timeSection, .trainBoard th {
 body {
     font-family: 'Lato', sans-serif, arial;
     color: white;
-    background: url('../img/south-station.jpg') cover;
-    background-color: blue; 
+    background: url('../img/south-station.jpg');
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    background-color: blue;
+    background-size: cover;
     display: flex;
     justify-content: space-between;
 }

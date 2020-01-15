@@ -1,5 +1,7 @@
 const timeDisplay = document.querySelector('#currentTime');
 
+// Note that all trains serving Wickford Junction service Providence
+
 async function determineDestination(departureData) {
     
     let finalDestination = "";
