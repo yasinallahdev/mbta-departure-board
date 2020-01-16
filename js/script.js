@@ -69,7 +69,7 @@ async function trackForStation(trackStation, rowPrefix) {
             const stationData = trackStation[i].relationships.stop.data.id.split('-');
             const departureTime = trackStation[i].attributes.departure_time;
 
-            carrierElement.textContent = "MBTA"; // todo: Add Display for Amtrak Northeast Regional/Acela Express/Lake Shore Limited/Downeaster Trains
+            carrierElement.textContent = "MBTA"; // todo: Add Display for Amtrak Northeast Regional/Acela Express/Lake Shore Limited/Downeaster Trains to Washington, D.C., Norfolk, Newport News, Roanoke, Chicago, or Brunswick.
             destinationElement.textContent = await determineDestination(trackStation[i]);
             departureTimeElement.textContent = displayTime(new Date(departureTime));
             trainStatusElement.textContent = trackStation[i].attributes.status;
