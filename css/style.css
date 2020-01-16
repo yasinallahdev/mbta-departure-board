@@ -20,6 +20,7 @@ h2, #timeSection, .trainBoard th {
 
 .trainBoardSection {
     width: 40%;
+    justify-self: space-around;
 }
 
 #timeSection {
@@ -45,6 +46,10 @@ body {
     color: yellow;
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
     font-weight: bold;
+}
+
+#timeSection {
+    color: #000000;
 }
 
 td.status {

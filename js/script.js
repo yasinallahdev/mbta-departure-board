@@ -7,15 +7,19 @@ async function determineDestination(departureData) {
     let finalDestination = "";
     const tripData = departureData.relationships.trip.data.id;
 
-    console.log("final destination");
-    console.log(tripData);
-    console.log(`https://api-v3.mbta.com/trips/${tripData}?api_key=${apiKey}`);
-
     const destinationData = await axios.get(`https://api-v3.mbta.com/trips/${tripData}?api_key=${apiKey}`)
 
     finalDestination = destinationData.data.data.attributes.headsign;
 
-    console.log(finalDestination);
+    if(finalDestination === "Forge Park/495" || finalDestination === "Foxboro") {
+        if(departureData.relationships.route.data.id === "CR-Fairmount") {
+            finalDestination = `${finalDestination} via Fairmount`;
+        }
+    } else if (finalDestination === "Haverhill") {
+        if(departureData.relationships.route.data.id === "CR-Lowell") {
+            finalDestination = `${finalDestination} via Wildcat`;
+        }
+    }
 
     return finalDestination;
 
@@ -51,14 +55,14 @@ function displayTrainNumber(vehicleData) {
 async function trackForStation(trackStation, rowPrefix) {
     for(let i = 0; i < 10; i++) {
             
-        const targetTableRow = document.querySelector(`#${rowPrefix}row${i}`);
+        const targetTableRow = document.querySelector(`#${rowPrefix}row${i}`).querySelectorAll('td');
 
-        const carrierElement = targetTableRow.querySelectorAll('td')[0];
-        const departureTimeElement = targetTableRow.querySelectorAll('td')[1];
-        const destinationElement = targetTableRow.querySelectorAll('td')[2];
-        const trainNumberElement = targetTableRow.querySelectorAll('td')[3];
-        const trackNumberElement = targetTableRow.querySelectorAll('td')[4];
-        const trainStatusElement = targetTableRow.querySelectorAll('td')[5];
+        const carrierElement = targetTableRow[0];
+        const departureTimeElement = targetTableRow[1];
+        const destinationElement = targetTableRow[2];
+        const trainNumberElement = targetTableRow[3];
+        const trackNumberElement = targetTableRow[4];
+        const trainStatusElement = targetTableRow[5];
 
         if( i < trackStation.length ) {
             
@@ -66,12 +70,15 @@ async function trackForStation(trackStation, rowPrefix) {
             const departureTime = trackStation[i].attributes.departure_time;
 
             carrierElement.textContent = "MBTA"; // todo: Add Display for Amtrak Northeast Regional/Acela Express/Lake Shore Limited/Downeaster Trains
-            console.log(trackStation[i]);
             destinationElement.textContent = await determineDestination(trackStation[i]);
             departureTimeElement.textContent = displayTime(new Date(departureTime));
             trainStatusElement.textContent = trackStation[i].attributes.status;
             trainNumberElement.textContent = displayTrainNumber(trackStation[i].relationships.vehicle.data);
             trackNumberElement.textContent = (stationData.length > 1)?(parseFloat(stationData[1])):("TBD");
+
+            console.log(trackStation[i]);
+
+            // alert(carrierElement.textContent, departureTimeElement.textContent, destinationElement.textContent, trainNumberElement.textContent, trackNumberElement.textContent, trainStatusElement.textContent)
 
         } else {
             carrierElement.textContent = "";
@@ -95,7 +102,7 @@ function updateBoard() {
             if(response.data) {
                 const filteredNorthStations = response.data.filter(elem => {
                     return (elem.relationships.stop.data.id.includes("North Station")) && (elem.attributes.departure_time !== null ? true : false);
-                });
+                })
 
                 const filteredSouthStations = response.data.filter(elem => {
                     return (elem.relationships.stop.data.id.includes("South Station")) && (elem.attributes.departure_time !== null ? true : false);
