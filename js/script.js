@@ -53,6 +53,9 @@ function displayTrainNumber(vehicleData) {
 }
 
 async function trackForStation(trackStation, rowPrefix) {
+
+    const destinationData = await determineDestinaations(trackStation);
+
     for(let i = 0; i < 10; i++) {
             
         const targetTableRow = document.querySelector(`#${rowPrefix}row${i}`).querySelectorAll('td');
