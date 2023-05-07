@@ -20,6 +20,6 @@
   },
   "homepage": "https://github.com/yasinallahdev/mbta-departure-board#readme",
   "dependencies": {
-    "axios": "^0.21.1"
+    "axios": "^0.21.2"
   }
 }
